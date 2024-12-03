@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using System.Windows.Documents;
 using System.Windows.Media;
 
 namespace WpfApp5
@@ -16,9 +17,9 @@ namespace WpfApp5
 
             foreach (FontFamily fontFamily in Fonts.SystemFontFamilies)
             {
-                fontFamliyComboBox.Items.Add (fontFamily.Source);
+                fontFamilyComboBox.Items.Add (fontFamily.Source);
             }
-            fontFamliyComboBox.SelectedItem = 13;
+            fontFamilyComboBox.SelectedIndex = 13;
 
             fontSizeComboBox.ItemsSource = new List<double>() {8,9,10,12,14,16,18,20,
                 22,24,32,40,50,60,80,100};
@@ -39,5 +40,31 @@ namespace WpfApp5
         {
 
         }
+
+        private void fontColorPicker_SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<Color?> e)
+        {
+            fontColor = (Color)e.NewValue;
+            SolidColorBrush fontBrush = new SolidColorBrush(fontColor);
+            rtbEditor.Selection.ApplyPropertyValue(TextElement.ForegroundProperty, fontBrush);
+        }
+
+        private void fontSizeComboBox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+            if (fontSizeComboBox.SelectedItem != null)
+            {
+                rtbEditor.Selection.ApplyPropertyValue
+                    (TextElement.FontSizeProperty, fontSizeComboBox.SelectedItem);
+            }
+        }
+
+        private void fontFamilyComboBox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+            if (fontFamilyComboBox.SelectedItem != null)
+            {
+                rtbEditor.Selection.ApplyPropertyValue
+                    (TextElement.FontFamilyProperty, fontFamilyComboBox.SelectedItem);
+            }
+        }
+
     }
 }
