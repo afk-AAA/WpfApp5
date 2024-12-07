@@ -61,7 +61,7 @@
                               Height="32" Margin="10,0,0,0" SelectionChanged="fontSizeComboBox_SelectionChanged"/>
                 </ToolBar>
             </ToolBarTray>
-            <RichTextBox x:Name="rtbEditor" Background="Snow"/>
+            <RichTextBox x:Name="rtbEditor" Background="Snow" TextChanged="rtbEditor_TextChanged"/>
         </DockPanel>
     
 </Window>

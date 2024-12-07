@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Documents;
+using System.Windows.Markup;
 using System.Windows.Media;
 
 namespace WpfApp5
@@ -66,5 +67,35 @@ namespace WpfApp5
             }
         }
 
+        private void rtbEditor_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+        {
+            var property_bold = rtbEditor.Selection.GetPropertyValue
+                (TextElement.FontWeightProperty);
+            boldButton.IsChecked = (property_bold != DependencyProperty.UnsetValue) &&
+                (property_bold.Equals(FontWeights.Bold));
+
+            var property_italic = rtbEditor.Selection.GetPropertyValue
+                (TextElement.FontStyleProperty);
+            italicButton.IsChecked = (property_italic != DependencyProperty.UnsetValue) &&
+                (property_italic.Equals(FontStyles.Italic));
+
+            var property_underline = rtbEditor.Selection.GetPropertyValue
+                (Inline.TextDecorationsProperty);
+            underlineButton.IsChecked = (property_underline != DependencyProperty.UnsetValue) &&
+                (property_underline.Equals(TextDecorations.Underline));
+
+            var property_fontFamily = rtbEditor.Selection.GetPropertyValue
+                (TextElement.FontFamilyProperty);
+            fontFamilyComboBox.SelectedItem = property_fontFamily.ToString();
+
+
+            var property_fontSize = rtbEditor.Selection.GetPropertyValue
+                (TextElement.FontSizeProperty);
+            fontSizeComboBox.SelectedItem = property_fontSize;
+
+            var property_fontColor = rtbEditor.Selection.GetPropertyValue
+                (TextElement.ForegroundProperty);
+            fontColorPicker.SelectedColor = ((SolidColorBrush)property_fontColor).Color; 
+        }
     }
 }
