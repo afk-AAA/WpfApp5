@@ -1,6 +1,5 @@
 ﻿using System.Windows;
 using System.Windows.Documents;
-using System.Windows.Markup;
 using System.Windows.Media;
 
 namespace WpfApp5
@@ -67,7 +66,7 @@ namespace WpfApp5
             }
         }
 
-        private void rtbEditor_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+        private void rtbEditor_SelectionChanged(object sender, RoutedEventArgs e)
         {
             var property_bold = rtbEditor.Selection.GetPropertyValue
                 (TextElement.FontWeightProperty);
