@@ -33,11 +33,11 @@
                         Height="38" Width="38">
                         <Image Width="32" Height="32" Source="/save.png"/>
                     </Button>
-                    <Button x:Name="trashButton" Height="38" Width="38">
+                    <Button x:Name="trashButton" Height="38" Width="38" Click="trashButton_Click">
                         <Image Width="32" Height="32" Source="/trash.png"/>
                     </Button>
                 </ToolBar>
-                <ToolBar x:Name="editingToolBar" Width="450">
+                <ToolBar x:Name="editingToolBar" Width="600">
                     <ToggleButton x:Name="boldButton" Command="EditingCommands.ToggleBold"
                                   Height="38" Width="38">
                         <Image Width="32" Height="32" Source="/bold.png"/>
@@ -59,6 +59,10 @@
                     <ComboBox x:Name="fontSizeComboBox" HorizontalAlignment="Left"
                               VerticalAlignment="Center" Width="50"
                               Height="32" Margin="10,0,0,0" SelectionChanged="fontSizeComboBox_SelectionChanged"/>
+                    <xctk:ColorPicker x:Name="backgroundColorPicker" Width="100" Height="34"
+                                      VerticalAlignment="Center" DisplayColorAndName="True" 
+                                      SelectedColorChanged="backgroundColorPicker_SelectedColorChanged"
+                                      Margin="10,0,0,0"/>
                 </ToolBar>
             </ToolBarTray>
             <RichTextBox x:Name="rtbEditor" Background="Snow" SelectionChanged="rtbEditor_SelectionChanged"/>

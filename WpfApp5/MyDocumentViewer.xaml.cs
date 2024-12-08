@@ -1,4 +1,8 @@
-﻿using System.Windows;
+﻿using Microsoft.Win32;
+using System.ComponentModel;
+using System.IO;
+using System.Reflection.Metadata;
+using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Media;
 
@@ -10,10 +14,12 @@ namespace WpfApp5
     public partial class MyDocumentViewer : Window
     {
         Color fontColor = Colors.Black;
+        Color backgroundColor = Colors.Snow;
         public MyDocumentViewer()
         {
             InitializeComponent ();
             fontColorPicker.SelectedColor = fontColor;
+            backgroundColorPicker.SelectedColor = backgroundColor;
 
             foreach (FontFamily fontFamily in Fonts.SystemFontFamilies)
             {
@@ -33,12 +39,34 @@ namespace WpfApp5
         }
         private void OpenCommand_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
         {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Rich Text Format (*.rtf)|*.rtf|Hyper Text Markup Language (*.html)|*.html|All files (*.*)|*.*";
+            openFileDialog.DefaultExt = ".rtf";
+            openFileDialog.AddExtension = true;
 
+            if (openFileDialog.ShowDialog() == true)
+            {
+                FileStream fileStream = new FileStream(openFileDialog.FileName, FileMode.Open);
+                TextRange range = new TextRange(rtbEditor.Document.ContentStart, rtbEditor.Document.ContentEnd);
+                range.Load(fileStream, DataFormats.Rtf);
+                fileStream.Close();
+            }
         }
 
         private void SaveCommand_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
         {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "Rich Text Format (*.rtf)|*.rtf|Hyper Text Markup Language (*.html)|*.html|All files (*.*)|*.*";
+            saveFileDialog.DefaultExt = ".rtf";
+            saveFileDialog.AddExtension = true;
 
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                TextRange range = new TextRange(rtbEditor.Document.ContentStart, rtbEditor.Document.ContentEnd);
+                FileStream fileStream = new FileStream(saveFileDialog.FileName, FileMode.Create);
+                range.Save(fileStream, DataFormats.Rtf);
+                fileStream.Close();
+            }
         }
 
         private void fontColorPicker_SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<Color?> e)
@@ -47,7 +75,13 @@ namespace WpfApp5
             SolidColorBrush fontBrush = new SolidColorBrush(fontColor);
             rtbEditor.Selection.ApplyPropertyValue(TextElement.ForegroundProperty, fontBrush);
         }
-
+        private void backgroundColorPicker_SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<Color?> e)
+        {
+            backgroundColor = (Color)e.NewValue;
+            SolidColorBrush backgroundBrush = new SolidColorBrush(backgroundColor);
+            rtbEditor.Selection.ApplyPropertyValue(TextElement.BackgroundProperty, backgroundBrush);
+            
+        }
         private void fontSizeComboBox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
             if (fontSizeComboBox.SelectedItem != null)
@@ -68,6 +102,7 @@ namespace WpfApp5
 
         private void rtbEditor_SelectionChanged(object sender, RoutedEventArgs e)
         {
+            
             var property_bold = rtbEditor.Selection.GetPropertyValue
                 (TextElement.FontWeightProperty);
             boldButton.IsChecked = (property_bold != DependencyProperty.UnsetValue) &&
@@ -96,5 +131,12 @@ namespace WpfApp5
                 (TextElement.ForegroundProperty);
             fontColorPicker.SelectedColor = ((SolidColorBrush)property_fontColor).Color; 
         }
+
+        private void trashButton_Click(object sender, RoutedEventArgs e)
+        {
+            rtbEditor.Document.Blocks.Clear();
+        }
+
+        
     }
 }
