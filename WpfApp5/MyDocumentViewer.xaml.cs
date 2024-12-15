@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Reflection.Metadata;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
 
@@ -14,7 +15,7 @@ namespace WpfApp5
     public partial class MyDocumentViewer : Window
     {
         Color fontColor = Colors.Black;
-        Color backgroundColor = Colors.Snow;
+        Color backgroundColor = Colors.White;
         public MyDocumentViewer()
         {
             InitializeComponent ();
@@ -79,7 +80,8 @@ namespace WpfApp5
         {
             backgroundColor = (Color)e.NewValue;
             SolidColorBrush backgroundBrush = new SolidColorBrush(backgroundColor);
-            rtbEditor.Selection.ApplyPropertyValue(TextElement.BackgroundProperty, backgroundBrush);
+            rtbEditor.Background = backgroundBrush;
+            //rtbEditor.Selection.ApplyPropertyValue(TextElement.BackgroundProperty, backgroundBrush);
             
         }
         private void fontSizeComboBox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)

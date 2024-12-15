@@ -65,7 +65,7 @@
                                       Margin="10,0,0,0"/>
                 </ToolBar>
             </ToolBarTray>
-            <RichTextBox x:Name="rtbEditor" Background="Snow" SelectionChanged="rtbEditor_SelectionChanged"/>
+            <RichTextBox x:Name="rtbEditor" Background="White" SelectionChanged="rtbEditor_SelectionChanged"/>
         </DockPanel>
     
 </Window>
